@@ -1,3 +1,20 @@
+server:
+  port: ${SERVER_PORT:8080}
+
 spring:
   application:
     name: Notification-Service
+
+  mongodb:
+    host: ${MONGODB_HOST:mongodb}
+    port: ${MONGODB_PORT:27017}
+    database: ${MONGODB_DATABASE:notification_db}
+    username: ${MONGO_INITDB_ROOT_USERNAME:user}
+    password: ${MONGO_INITDB_ROOT_PASSWORD:password}
+    authentication-database: admin
+
+  rabbitmq:
+    host: ${RABBITMQ_HOST:rabbitmq}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_DEFAULT_USER:user}
+    password: ${RABBITMQ_DEFAULT_PASS:password}

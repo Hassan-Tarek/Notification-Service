@@ -9,6 +9,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class NotificationMapper {
 
+    public NotificationRequest mapToRequest(Notification notification) {
+        return NotificationRequest.builder()
+                .recipient(notification.getRecipient())
+                .message(notification.getMessage())
+                .type(notification.getType())
+                .build();
+    }
+
     public NotificationResponse mapToResponse(Notification notification) {
         return NotificationResponse.builder()
                 .id(notification.getId())

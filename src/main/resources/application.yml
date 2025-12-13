@@ -18,3 +18,10 @@ spring:
     port: ${RABBITMQ_PORT:5672}
     username: ${RABBITMQ_DEFAULT_USER:user}
     password: ${RABBITMQ_DEFAULT_PASS:password}
+
+# RabbitMQ Configuration
+notification:
+  rabbitmq:
+    exchange: ${RABBITMQ_EXCHANGE:notification.exchange}
+    routing-key: ${RABBITMQ_ROUTING_KEY:notification.routing-key}
+    queue: ${RABBITMQ_QUEUE:notification.queue}

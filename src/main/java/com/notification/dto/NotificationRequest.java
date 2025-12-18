@@ -11,8 +11,11 @@ public record NotificationRequest(
         @NotBlank(message = "Recipient is required")
         String recipient,
 
-        @NotBlank(message = "Message is required")
-        String message,
+        @NotBlank(message = "Subject is required")
+        String subject,
+
+        @NotBlank(message = "Content is required")
+        String content,
 
         @NotNull(message = "Type is required")
         NotificationType type

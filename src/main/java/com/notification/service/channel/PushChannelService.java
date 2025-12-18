@@ -19,8 +19,8 @@ public class PushChannelService implements NotificationChannel {
             Message message = Message.builder()
                     .setToken(request.recipient())
                     .setNotification(Notification.builder()
-                            .setTitle("Push Notification")
-                            .setBody(request.message())
+                            .setTitle(request.subject())
+                            .setBody(request.content())
                             .build())
                     .build();
             String response = FirebaseMessaging.getInstance().send(message);

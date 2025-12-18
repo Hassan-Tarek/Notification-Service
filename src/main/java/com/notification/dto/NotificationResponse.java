@@ -10,7 +10,8 @@ import java.time.LocalDateTime;
 public record NotificationResponse(
         String id,
         String recipient,
-        String message,
+        String subject,
+        String content,
         NotificationType type,
         NotificationStatus status,
         LocalDateTime createdAt,

@@ -12,7 +12,8 @@ public class NotificationMapper {
     public NotificationRequest mapToRequest(Notification notification) {
         return NotificationRequest.builder()
                 .recipient(notification.getRecipient())
-                .message(notification.getMessage())
+                .subject(notification.getSubject())
+                .content(notification.getContent())
                 .type(notification.getType())
                 .build();
     }
@@ -21,7 +22,8 @@ public class NotificationMapper {
         return NotificationResponse.builder()
                 .id(notification.getId())
                 .recipient(notification.getRecipient())
-                .message(notification.getMessage())
+                .subject(notification.getSubject())
+                .content(notification.getContent())
                 .type(notification.getType())
                 .status(notification.getStatus())
                 .createdAt(notification.getCreatedAt())
@@ -32,7 +34,8 @@ public class NotificationMapper {
     public Notification mapToNotification(NotificationRequest request) {
         return Notification.builder()
                 .recipient(request.recipient())
-                .message(request.message())
+                .subject(request.subject())
+                .content(request.content())
                 .type(request.type())
                 .status(NotificationStatus.PENDING)
                 .build();

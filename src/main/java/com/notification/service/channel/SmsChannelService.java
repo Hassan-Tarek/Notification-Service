@@ -22,7 +22,7 @@ public class SmsChannelService implements NotificationChannel {
             Message message = Message.creator(
                     new PhoneNumber(request.recipient()),
                     new PhoneNumber(fromNumber),
-                    request.message()
+                    request.subject() + "\n" + request.content()
             ).create();
             log.info("Sms Notification sent successfully to {}. SID={}",
                     request.recipient(), message.getSid());

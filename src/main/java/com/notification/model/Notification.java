@@ -24,7 +24,9 @@ public class Notification {
 
     private String recipient;
 
-    private String message;
+    private String subject;
+
+    private String content;
 
     private NotificationType type;
 

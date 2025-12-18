@@ -21,8 +21,8 @@ public class EmailChannelService implements NotificationChannel {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo(request.recipient());
-            message.setSubject("Email Notification");
-            message.setText(request.message());
+            message.setSubject(request.subject());
+            message.setText(request.content());
             mailSender.send(message);
             log.info("Email Notification sent successfully to {}", request.recipient());
         } catch (Exception e) {

@@ -30,7 +30,7 @@ public class NotificationController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<List<NotificationResponse>> getAllNotifications() {
         List<NotificationResponse> responses = notificationService.getAllNotifications();
         return ResponseEntity.ok(responses);

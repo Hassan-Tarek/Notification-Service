@@ -43,26 +43,29 @@ public class NotificationService {
         Notification notification = notificationMapper.mapToNotification(request);
         notificationRepository.save(notification);
 
-        // Publish the notification id to RabbitMQ
-        notificationProducer.sendNotification(notification.getId());
+        // Publish the notification to RabbitMQ
+        notificationProducer.publish(notification);
 
         return notificationMapper.mapToResponse(notification);
     }
 
-    public void processNotification(String notificationId) {
-        Notification notification = notificationRepository.findById(notificationId)
-                .orElseThrow(() -> new ResourceNotFoundException("Notification not found!"));
-        NotificationRequest request = notificationMapper.mapToRequest(notification);
+    public void processNotification(Notification notification) {
+        // Idempotency check
+        if (notification.getStatus().equals(NotificationStatus.SENT)) {
+            return;    // already sent
+        }
 
         try {
-            NotificationChannel channel = channelMap.get(request.type());
-            channel.sendNotification(request);
+            NotificationChannel channel = channelMap.get(notification.getType());
+            channel.sendNotification(notification);
             notification.setSentAt(LocalDateTime.now());
             notification.setStatus(NotificationStatus.SENT);
         } catch (Exception e) {
             notification.setStatus(NotificationStatus.FAILED);
+            throw e;
+        } finally {
+            notificationRepository.save(notification);
         }
-        notificationRepository.save(notification);
     }
 
     public List<NotificationResponse> getAllNotifications() {

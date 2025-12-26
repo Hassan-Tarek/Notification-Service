@@ -13,13 +13,22 @@ spring:
     password: ${MONGO_INITDB_ROOT_PASSWORD:password}
     authentication-database: admin
 
+  # RabbitMQ Configurations
   rabbitmq:
     host: ${RABBITMQ_HOST:rabbitmq}
     port: ${RABBITMQ_PORT:5672}
     username: ${RABBITMQ_DEFAULT_USER:user}
     password: ${RABBITMQ_DEFAULT_PASS:password}
+    listener:
+      simple:
+        concurrency: 3
+        max-concurrency: 10
+        # failed messages routed to retry queue or dlq instead of causing infinite consumer loop
+        default-requeue-rejected: false
+        retry:
+          enabled: false
 
-  # Mail Configuration
+  # Mail Configurations
   mail:
     host: smtp.gmail.com
     port: 587
@@ -42,9 +51,21 @@ firebase:
   service-account:
     path: ${FIREBASE_CONFIG_PATH:classpath:firebase/firebase-service-account.json}
 
-# RabbitMQ Configuration
+# Notification RabbitMQ Configuration
 notification:
   rabbitmq:
-    exchange: ${RABBITMQ_EXCHANGE:notification.exchange}
-    routing-key: ${RABBITMQ_ROUTING_KEY:notification.routing-key}
-    queue: ${RABBITMQ_QUEUE:notification.queue}
+    exchange: ${NOTIFICATION_RABBITMQ_EXCHANGE:notification.exchange}
+    queue: ${NOTIFICATION_RABBITMQ_QUEUE:notification.queue}
+    retry-queue: ${NOTIFICATION_RABBITMQ_RETRY_QUEUE:notification.retry.queue}
+    dlq: ${NOTIFICATION_RABBITMQ_DLQ:notification.dlq}
+    routing-key: ${NOTIFICATION_RABBITMQ_ROUTING_KEY:notification.routing-key}
+    retry-routing-key: ${NOTIFICATION_RABBITMQ_RETRY_ROUTING_KEY:notification.retry.routing-key}
+    dlq-routing-key: ${NOTIFICATION_RABBITMQ_DLQ_ROUTING_KEY:notification.dlq.routing-key}
+    retry:
+      ttl: ${NOTIFICATION_RABBITMQ_RETRY_TTL:5000}
+      max-retries: ${NOTIFICATION_RABBITMQ_RETRY_MAX_RETRIES:3}
+
+logging:
+  level:
+    root: INFO
+    com.example.notification: DEBUG

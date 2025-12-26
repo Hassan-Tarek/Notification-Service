@@ -1,6 +1,6 @@
 package com.notification.service.channel;
 
-import com.notification.dto.NotificationRequest;
+import com.notification.model.Notification;
 import com.notification.model.enums.NotificationType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,17 +16,17 @@ public class EmailChannelService implements NotificationChannel {
     private final JavaMailSender mailSender;
 
     @Override
-    public void sendNotification(NotificationRequest request) {
-        log.info("Sending email notification to: {}", request.recipient());
+    public void sendNotification(Notification notification) {
+        log.info("Sending email notification to: {}", notification.getRecipient());
         try {
             SimpleMailMessage message = new SimpleMailMessage();
-            message.setTo(request.recipient());
-            message.setSubject(request.subject());
-            message.setText(request.content());
+            message.setTo(notification.getRecipient());
+            message.setSubject(notification.getSubject());
+            message.setText(notification.getContent());
             mailSender.send(message);
-            log.info("Email Notification sent successfully to {}", request.recipient());
+            log.info("Email Notification sent successfully to {}", notification.getRecipient());
         } catch (Exception e) {
-            log.error("Failed to send Email Notification to {}", request.recipient(), e);
+            log.error("Failed to send Email Notification to {}", notification.getRecipient(), e);
             throw new RuntimeException(e);
         }
     }

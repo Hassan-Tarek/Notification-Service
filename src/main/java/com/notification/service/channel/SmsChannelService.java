@@ -1,6 +1,6 @@
 package com.notification.service.channel;
 
-import com.notification.dto.NotificationRequest;
+import com.notification.model.Notification;
 import com.notification.model.enums.NotificationType;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
@@ -16,18 +16,18 @@ public class SmsChannelService implements NotificationChannel {
     private String fromNumber;
 
     @Override
-    public void sendNotification(NotificationRequest request) {
-        log.info("Sending Sms Notification to: {} from: {}", request.recipient(), fromNumber);
+    public void sendNotification(Notification notification) {
+        log.info("Sending Sms Notification to: {} from: {}", notification.getRecipient(), fromNumber);
         try {
             Message message = Message.creator(
-                    new PhoneNumber(request.recipient()),
+                    new PhoneNumber(notification.getRecipient()),
                     new PhoneNumber(fromNumber),
-                    request.subject() + "\n" + request.content()
+                    notification.getSubject() + "\n" + notification.getContent()
             ).create();
             log.info("Sms Notification sent successfully to {}. SID={}",
-                    request.recipient(), message.getSid());
+                    notification.getRecipient(), message.getSid());
         } catch (Exception e) {
-            log.error("Failed to send Sms Notification to {}", request.recipient(), e);
+            log.error("Failed to send Sms Notification to {}", notification.getRecipient(), e);
             throw new RuntimeException(e);
         }
     }

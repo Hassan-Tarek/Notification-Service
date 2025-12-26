@@ -27,7 +27,7 @@ A robust, scalable notification service built with Spring Boot, designed to hand
 Before running the application, ensure you have the following installed:
 
 - [Java 17+](https://www.oracle.com/java/technologies/downloads/)
-- [Docker](https://www.docker.com/products/docker-desktop/) & Docker Compose
+- [Docker & Docker Compose](https://www.docker.com/products/docker-desktop/)
 - [Maven](https://maven.apache.org/) (optional, included via wrapper)
 
 ## ⚙️ Configuration
@@ -103,16 +103,16 @@ This requires no manual local setup of MongoDB or RabbitMQ.
 
 ```json
 {
+  "recipient": "+1234567890",
   "subject": "Welcome!",
   "content": "Thanks for signing up.",
-  "recipient": "+1234567890",
   "type": "SMS" 
 }
 ```
 *Types: `SMS`, `EMAIL`, `PUSH`*
 
 ### 2. Get All Notifications
-**GET** `/api/v1/notifications/all`
+**GET** `/api/v1/notifications`
 
 ### 3. Get Notification by ID
 **GET** `/api/v1/notifications/{id}`
